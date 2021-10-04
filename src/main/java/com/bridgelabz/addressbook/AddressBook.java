@@ -3,6 +3,7 @@ package com.bridgelabz.addressbook;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.function.Predicate;
 
 public class AddressBook {
     List<PersonDetails> referenceBook = new LinkedList<PersonDetails>();
@@ -20,7 +21,15 @@ public class AddressBook {
             referenceBook.add(person);
         }
     }
+    public void searchByCity(String city,String firstName) {
+        Predicate<PersonDetails> searchPerson = (contact -> contact.getCity().equals(city)&& contact.getFirstName().equals(firstName));
+        referenceBook.stream().filter(searchPerson).forEach(person -> output(person));
+    }
 
+    public void searchByState(String state, String firstName) {
+        Predicate<PersonDetails> searchPerson = (contact -> contact.getState().equals(state)&& contact.getFirstName().equals(firstName));
+        referenceBook.stream().filter(searchPerson).forEach(person -> output(person));
+    }
     public void editPerson(String name) {
         int i=0;
         for(i=0;i<referenceBook.size();i++) {
