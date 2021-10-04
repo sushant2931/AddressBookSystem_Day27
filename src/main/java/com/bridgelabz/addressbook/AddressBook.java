@@ -55,6 +55,18 @@ public class AddressBook {
         output(person);
     }
 
+    public void deletePerson(String name) {
+        for(int i=0;i<referenceBook.size();i++) {
+            if(referenceBook.get(i).getFirstName().equals(name)) {
+                referenceBook.remove(i);
+                System.out.println("Deleted details of : "+name);
+                return;
+            }
+        }
+        System.out.println("Name not found");
+    }
+
+
     public static PersonDetails intake() {
         Scanner sc = new Scanner(System.in);
         PersonDetails person1 = new PersonDetails();
