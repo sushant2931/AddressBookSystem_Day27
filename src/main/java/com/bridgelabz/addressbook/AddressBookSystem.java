@@ -38,6 +38,9 @@ public class AddressBookSystem {
                     System.out.println("Enter name");
                     addressBook.deletePerson(sc.next());
                     break;
+                case 5:
+                    System.out.println("after sorting");
+                    addressBook.sortByFirstName();
                 default:
                     exit = false;
 
