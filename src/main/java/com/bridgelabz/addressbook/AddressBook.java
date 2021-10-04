@@ -1,12 +1,12 @@
 package com.bridgelabz.addressbook;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.function.Predicate;
 
 public class AddressBook {
-    List<PersonDetails> referenceBook = new LinkedList<PersonDetails>();
+    ArrayList<PersonDetails> referenceBook = new ArrayList<PersonDetails>();
+    public  HashMap<String, ArrayList<PersonDetails>> personsByCity = new HashMap<String, ArrayList<PersonDetails>>();
+    public  HashMap<String, ArrayList<PersonDetails>> personsByState = new HashMap<String, ArrayList<PersonDetails>>();
     private int numOfContacts = 0;
 
     public void addPerson() {
@@ -19,8 +19,15 @@ public class AddressBook {
         }
         else{
             referenceBook.add(person);
+            if(personsByCity.get(person.getCity()) == null) personsByCity.put(person.getCity(), new ArrayList<>());
+            personsByCity.get(person.getCity()).add(person);
+            if(personsByState.get(person.getState()) == null) personsByState.put(person.getState(), new ArrayList<>());
+            personsByState.get(person.getState()).add(person);
         }
+
     }
+
+
     public void searchByCity(String city,String firstName) {
         Predicate<PersonDetails> searchPerson = (contact -> contact.getCity().equals(city)&& contact.getFirstName().equals(firstName));
         referenceBook.stream().filter(searchPerson).forEach(person -> output(person));
@@ -30,6 +37,17 @@ public class AddressBook {
         Predicate<PersonDetails> searchPerson = (contact -> contact.getState().equals(state)&& contact.getFirstName().equals(firstName));
         referenceBook.stream().filter(searchPerson).forEach(person -> output(person));
     }
+
+    public void personsInCity(String city) {
+        ArrayList<PersonDetails> list = personsByCity.get(city);
+        list.stream().forEach(person -> output(person));
+    }
+
+    public void personsInState(String State) {
+        ArrayList<PersonDetails> list = personsByState.get(State);
+        list.stream().forEach(person -> output(person));
+    }
+
     public void editPerson(String name) {
         int i=0;
         for(i=0;i<referenceBook.size();i++) {
@@ -64,8 +82,11 @@ public class AddressBook {
             System.out.println("name not found!");
             return;
         }
+
         output(person);
+
     }
+
 
     public void deletePerson(String name) {
         int i=0;
@@ -82,7 +103,10 @@ public class AddressBook {
         System.out.println("Deleted details of : "+ name);
     }
 
-    public static PersonDetails intake() {
+
+
+
+    private static PersonDetails intake() {
         Scanner sc = new Scanner(System.in);
         PersonDetails person1 = new PersonDetails();
 
@@ -105,14 +129,14 @@ public class AddressBook {
         return person1;
     }
 
-    public static void output(PersonDetails person) {
-        System.out.println("Enter firstName : " + person.getFirstName());
-        System.out.println("Enter SecondName : " + person.getLastName());
-        System.out.println("Enter Address : " + person.getAddress());
-        System.out.println("Enter City : " + person.getCity());
-        System.out.println("Enter State : " + person.getState());
-        System.out.println("Enter Pin code : " + person.getPinCode());
-        System.out.println("Enter Phone nmber : " + person.getPhoneNumber());
-        System.out.println("Enter email : " + person.getEmail());
+    private static void output(PersonDetails person) {
+        System.out.println("firstName : "+person.getFirstName());
+        System.out.println("SecondName : "+ person.getLastName());
+        System.out.println("Address : "+ person.getAddress());
+        System.out.println("City : "+person.getCity());
+        System.out.println("State : "+person.getState());
+        System.out.println("Pin code : "+person.getPinCode());
+        System.out.println("Phone nmber : "+person.getPhoneNumber() );
+        System.out.println("email : "+person.getEmail());
     }
 }
